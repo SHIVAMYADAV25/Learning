@@ -1,20 +1,19 @@
-// import the webSocket server from the "ws" library 
+// Import the WebSocket server from the "ws" library
 import { WebSocketServer } from "ws";
-// Create a new Websocket server Instance on part 8080
+// Create a new WebSocket server instance on port 8080
 const ws = new WebSocketServer({ port: 8080 });
 // Add an event listener for new client connections
-ws.on("connection", function (socket) {
-<<<<<<< HEAD
+ws.on("connection", (socket) => {
     console.log("user connected");
-=======
->>>>>>> c9eda0e6672efcd4673509d05a9a3465e0014de5
-    //add an event lsitener for message received from the connected client
-    socket.on("message", (e) => {
-        // Check if the message received in "ping"
-        if (e.toString() === "ping") {
-            // response with "pong" tp the client
+    // Add an event listener for messages received from the client
+    socket.on("message", (msg) => {
+        const message = msg.toString();
+        // Check if the received message is "ping"
+        if (message === "ping") {
+            // Respond with "pong" to the client
             socket.send("pong");
         }
     });
+    // setInterval(()=>socket.send("hrllo"),1000)
 });
 //# sourceMappingURL=index.js.map
