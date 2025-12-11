@@ -55,3 +55,19 @@ function App() {
 }
 
 export default App;
+
+
+// first make the connection in useEffect using this line const newSocket = new WebSocket('ws://localhost:8080');
+// then set the newSocket avaliabe to everyone sepecailly message function
+// using the onmessage we get the from the backend to the frontent e will e object data is the value we want
+// then get the refrence of the input using useRef so that we can store the value inside a variable which can be passed tp the backend
+// using the text.send() === newSocket.send()
+
+
+// advantage using websocket 
+// once the connection is done the server can send any kind of data same with client
+// if we use the http we would be having Setinterval to make the connection again and again
+// so call the server agian and again but
+// there the connection is once made then there is no worry of connecting again 
+
+// the data will be persitance and the duplex form 
