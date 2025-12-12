@@ -4,43 +4,77 @@ import {WebSocketServer ,WebSocket} from "ws";
 // like in node the http can create is own server without express but the native websocket cannot create its own server but can get connect to other sockets
 // we using external library to create and socket server called ws
 
+type allSocketSchema = {
+    socket : WebSocket,
+    roomId : string 
+}
+
+let allSocket:allSocketSchema[] = [] 
+
+// this will looks like
+// [
+//     [socket:postman wala , roomId : red],
+//     [socket:postwoman wala , roomId : green],
+//     [socket:new postman wala , roomId : red],
+// ]
+// now the similar room people can have the data exchange
+
 const wss = new WebSocketServer({ port : 8000 });
 
-// chech or count how many user are connected
-let userCount:number = 0;
-
-
-let allSockets:WebSocket[] = [] // the websocket type we are giving is comming from external library not from navtive js ones 
+// the websocket type we are giving is comming from external library not from navtive js ones 
 
 // when ever some one connected the callback runs and(for each a new socket variable is created)
 wss.on("connection",(socket)=>{
-    // every user socket will get pushed in allsocket array
-    allSockets.push(socket) //looks like [socket1 (this is of postman), socket2 (this is of postwomen)]
-    userCount = userCount + 1 // when ever this callback called a new user is created and the count of usercount get plus one
-    console.log("user Connected #"+ userCount); // will get print when an connection is done b/w client and server for each user
-
-    // when ever user sent a message the callback runs (for each user there will be new Event variable)
-    socket.on("message",(event) => { // this is like the req given us by user on http
-        // the event will be in buffer convert that in string
-        console.log("message Received: " + event.toString() );
-
-
-        // so using this loop and pushing the socket in the allSocket we have created an simple broadcasting channel
-        // all the socket power of each user is in allsocket we loop throught each and then get the access of each user socket and send the message .in here who is typing will also receive its own message (because its own socket is alos in allSocket)
-        allSockets.forEach( s => {
-            s.send(event.toString() + "sended by the server");
-        })
-    })
-
-
-    // if a user is diconnected we need to delete that socket value from the allSocket array
-    socket.on("disconnect",() => { // thsi diconnect works when the user get disconnect it works individually for each user
-        // agar vo socket nhi hai to use filter kar ke nikal dya
-        allSockets = allSockets.filter(x =>  x != socket);
-    })
-
     
+    socket.on("message",(message) => {
+        // parsing data because websocket allways receive data in string so we will get the data like this
+        // "{
+        //     "type" : "chat" || "join",
+        //     "payload" : "{
+        //         "roomId" :"red" or "message" : "hello" if u are already in joined in a room
+        //     }"
+        // }"
+        // step 1) get the data
 
+        // @ts-ignore
+        const parsedMessage = JSON.parse(message);
+
+
+        // step 2) check what operation does the user want to perfrom getting into and room or want to send message in room (type)
+
+        // step1 : check the types
+        // step2 : push all the data given by the user in allSocket
+        if(parsedMessage.type === "join"){ // In payload it will be having roomId
+            // pushing the user data in payload
+            allSocket.push([
+                socket : socket,
+                roomId : parsedMessage.payload.roomId
+            ])
+        }
+
+
+        // step1: so here check what type is it
+        // step2 : get the current user roomID from allsocket
+        // step3  : check people present in the same room and send the message send by the current user 
+        if(parsedMessage.type === "chat"){ // In payload it will be having the message
+            // const currentUserRoom = allSocket.find(x => x.socket == socket)?.roomId  simpler way to write this code will be
+
+            let currentUserRoom = null; // each user will he having its own currenUserRoom
+
+            // ismai hum log current user ka room id store ka raha hai 
+            for(let i = 0 ; i < allSocket.length ; i++){ // iterate each user scoket present in allSocket
+                if(allSocket[i]?.socket === socket){ // checking or finding the current user presence in allsocket ( ki matalab jo user send kiya hai message uska socket present hai kya all socket mai)
+                    currentUserRoom = allSocket[i]?.roomId // store the roomId in currentUserRoom
+                }
+            }
+
+            for( let i = 0; i  < allSocket.length ; i++){
+                if(allSocket[i]?.roomId == currentUserRoom){ // check that all the user present in allsocket does there roomid matched the roomId of currentUser  if yes then send the message of current user to all the user present in the same room
+                    allSocket[i]?.socket.send(parsedMessage.payload.message); // send message to the people present in same room
+                }
+            }
+        }
+    })
 })
 
 // this similar to 
