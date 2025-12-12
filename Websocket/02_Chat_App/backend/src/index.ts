@@ -36,21 +36,37 @@ wss.on("connection",(socket)=>{
         // }"
         // step 1) get the data
 
-        // @ts-ignore
-        const parsedMessage = JSON.parse(message);
+            // @ts-ignore
+            let parsedMessage: any;
+            try {
+            // @ts-ignore
+            parsedMessage = JSON.parse(message);
+            } catch (err) {
+            console.error("Invalid JSON from client:", message);
+            return;
+            }
+
+
 
 
         // step 2) check what operation does the user want to perfrom getting into and room or want to send message in room (type)
 
         // step1 : check the types
         // step2 : push all the data given by the user in allSocket
-        if(parsedMessage.type === "join"){ // In payload it will be having roomId
-            // pushing the user data in payload
-            allSocket.push([
-                socket : socket,
-                roomId : parsedMessage.payload.roomId
-            ])
-        }
+        // if(parsedMessage.type === "join"){ // In payload it will be having roomId
+        //     // pushing the user data in payload
+        //     allSocket.push([
+        //         socket : socket,
+        //         roomId : parsedMessage.payload.roomId
+        //     ])
+        // }
+
+        if (parsedMessage.type === "join" && parsedMessage.payload?.roomId) {
+      // push an OBJECT, not an array
+      allSocket.push({ socket, roomId: String(parsedMessage.payload.roomId) });
+      console.log("Joined room:", parsedMessage.payload.roomId, " total sockets:", allSocket.length);
+      return;
+    }
 
 
         // step1: so here check what type is it
