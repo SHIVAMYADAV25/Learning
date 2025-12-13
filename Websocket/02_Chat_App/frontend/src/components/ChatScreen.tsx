@@ -23,6 +23,7 @@ export function ChatScreen({
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     onSend();
+    console.log(messages)
   };
 
   return (
@@ -66,7 +67,7 @@ export function ChatScreen({
             >
               <div
                 className={`max-w-[75%] rounded-2xl px-3 py-2 text-sm shadow-sm ${
-                  m.self
+                  m.self 
                     ? "bg-[#2E8C82] text-white rounded-br-sm"
                     : "bg-white text-slate-900 rounded-bl-sm border border-slate-200"
                 }`}
@@ -101,3 +102,9 @@ export function ChatScreen({
     </div>
   );
 }
+
+
+// id :  "ce499cb7-c0b1-4ae4-96c0-ea3caedf1f3a"
+// roomId :  "1"
+// self : true
+// text : "hekko"

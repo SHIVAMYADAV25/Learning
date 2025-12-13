@@ -74,7 +74,7 @@ wss.on("connection",(socket)=>{
         // step3  : check people present in the same room and send the message send by the current user 
         if(parsedMessage.type === "chat"){ // In payload it will be having the message
             // const currentUserRoom = allSocket.find(x => x.socket == socket)?.roomId  simpler way to write this code will be
-
+            console.log("entered")
             let currentUserRoom = null; // each user will he having its own currenUserRoom
 
             // ismai hum log current user ka room id store ka raha hai 
@@ -89,6 +89,8 @@ wss.on("connection",(socket)=>{
                     allSocket[i]?.socket.send(parsedMessage.payload.message); // send message to the people present in same room
                 }
             }
+
+            console.log(allSocket)
         }
     })
 })
