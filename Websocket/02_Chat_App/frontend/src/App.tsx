@@ -35,6 +35,8 @@ export default function App() {
     //  -> also send the data to socket (which is type and payload inside that and roomId)
     if (!roomId.trim() || !username.trim()) return;
 
+    
+
     const ws = new WebSocket(WS_URL);
 
     ws.onopen = () => {
@@ -44,7 +46,7 @@ export default function App() {
       ws.send(
         JSON.stringify({
           type: "join",
-          payload: { roomId },
+          payload: { roomId ,sender : username},
         })
       );
     };
@@ -58,6 +60,13 @@ export default function App() {
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
+
+        if (data.type === "error") {
+          alert(data.payload.message);
+          ws.close();
+          return;
+        }
+        
         if (data.type === "chat") {
           const text = data.payload?.message ?? "";
           const room = data.payload?.roomId ?? "";
@@ -67,7 +76,7 @@ export default function App() {
               id: crypto.randomUUID(),
               text,
               roomId: room,
-              self: false,
+              self: data.payload?.sender === username, // 🔥 KEY LINE
             },
           ]);
            console.log("from try handle:",messages);
@@ -115,16 +124,6 @@ export default function App() {
         payload: { message: msg },
       })
     );
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: crypto.randomUUID(),
-        text: msg,
-        roomId,
-        self: true,
-      },
-    ]);
 
     console.log("from Send handle:",messages);
 
