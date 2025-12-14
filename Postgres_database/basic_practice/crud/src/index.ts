@@ -3,17 +3,17 @@
 import { Client } from "pg"
 
 // Creating a new instance of the Client with a connection string for the PostgreSQL database.
-const pgClient = new Client('postgresql://neondb_owner:npg_0PmMYV3xEdHv@ep-cold-lake-ad9eqfjo-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require');
+const pgClient = new Client('NEON_DB_URL');
 
 
 // Alternative way to create the Client instance using an object for more flexibility (commented out here).
 // const pgClient2 = new Client({
-//     user: "neondb_owner", // Username for authentication
-//     password: "npg_0PmMYV3xEdHv", // Password for authentication
+//     user: "neondb", // Username for authentication
+//     password: "npg_0/dHv", // Password for authentication
 //     port: "8080", // Port number for the database server
-//     host: "ep-cold-lake-ad9eqfjo-pooler.c-2.us-east-1.aws.neon.tech", // Database server host
-//     database: "neondb", // Database name to connect to
-//     ssl: true // Enabling SSL for secure communication
+//     host: "ep-cold-lake-ad9eqfjt-1.aws.neon.tech", // Database server host
+//     database: "neonb", // Database name to connect to
+//     ssl: tre // Enabling SSL for secure communication
 // });
 
 // Defining an asynchronous function to handle the database operations.
