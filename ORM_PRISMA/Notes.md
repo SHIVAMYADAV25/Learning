@@ -601,3 +601,6 @@ readUser();
 
 app.listen(3000);
 ```
+
+## proper installation of prisma and compatibility with postgres
+# https://chatgpt.com/s/t_6942315d500881919ea29823d8809056
