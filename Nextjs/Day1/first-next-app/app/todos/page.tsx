@@ -1,39 +1,36 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { get } from 'http';
 
-const page = () => {
+async function getTodo(){
+  let response = await axios.get("https://jsonplaceholder.typicode.com/todos");
+  return response.data;
+}
 
-const [todo,setTodo] = useState([]);
+interface Itodo {
+  title : String;
+  completed : boolean;
+}
+async function page(){
 
-useEffect(()=>{
-  fetch("https://jsonplaceholder.typicode.com/todos")
-  .then((result)=>{
-    return result.json();
-  }).then((newvalue)=>{
-    console.log(newvalue);
-    setTodo(newvalue);
-  })
-  .catch((er) => console.error(er));
-
-  // console.log(to)
-},[])
+  let todo = await getTodo();
 
   return (
     <div className='flex flex-col justify-center items-center bg-gradient-to-r from-blue-200 to-cyan-200 text-black min-h-screen'>
-      {todo.slice(0,30).map((t)=>(
-        <p key={t.id} >{t.title}</p>
-      ))}
+      {todo.map((TodoInter : Itodo) => <Todo title={TodoInter.title} completed={TodoInter.completed}/>)}
     </div>
   )
 }
 
+
+function Todo(todo : Itodo){
+  return (
+    <div>
+      {todo.title} {todo.completed ? "done" : "not Done"}
+    </div>
+  )
+}
 export default page
 
-
-// first fetch
-// fetch returns the promise
-// then take the promise and the use .then(parameter will be the return eg: response) in that return the response as response.json
-// then use .then to console the json returned value and then set the todo using setTodo
-// use .catch for error
-// and the use the .map to render the data on by one
