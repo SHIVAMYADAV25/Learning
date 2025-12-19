@@ -1,5 +1,4 @@
-Here’s your content cleaned up and formatted as Markdown, ready to paste into notes or a README.
-
+https://chatgpt.com/share/6944d5da-4778-8001-98f7-5520434b6eac
 # Database Migration — Detailed Explanation (Prisma + General Concept)
 
 ## 1. What Exactly Is a Migration?
