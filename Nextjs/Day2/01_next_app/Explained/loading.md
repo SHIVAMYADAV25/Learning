@@ -1,4 +1,5 @@
 ```markdown
+https://chatgpt.com/s/t_6944d2b71e2481919d604b8e704da491
 # What `loading.tsx` actually does in Next.js
 
 `loading.tsx` is shown while the server is waiting for async work in `page.tsx` (or `layout.tsx`) to finish.
