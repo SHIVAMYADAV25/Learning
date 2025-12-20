@@ -260,4 +260,16 @@ If you want next:
 
 Just say **next** 🚀
 
+
+
+
+hydration => server component ( server side render) , client component (server side render hydrated on client)
+
+on "use client" the next js has the html where there is no interactive activity is done(eg => onclick , onchange , useffect calling) nothing will be in nextjs render html the page was rendered but interactive feature was not given 
+the render is on server but it get client side hydrated (means the js file is having all the interaction and first the html code is render by server then the js code is applied by client
+
+before hydration there are some check like dom and virtual dom changes server sended data is matching or is changed like this for example when we do Date.now() the server render will have diff time and this is send to client .client also render this now the time is diff this will give and hydration error (solution always render the time on useeffect => so it runs on client) 
+
+in detail
+
 https://chatgpt.com/s/t_694621b87018819188d3c851ed57ef3f
