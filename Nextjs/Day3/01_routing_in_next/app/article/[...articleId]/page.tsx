@@ -1,6 +1,9 @@
 // Importing the React library to define a React functional component.
 import React from 'react';
 
+// url => http://localhost:3000/article/2332/dd/ee
+// [...articelId ] will be having => [ '2332', 'dd', 'ee' ]
+
 // Defining a functional component named `Article`.
 const Article = async ({params} : any) => {
     const h1 = (await params).articleId
