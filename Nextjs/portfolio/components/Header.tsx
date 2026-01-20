@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 
 const Header = () => {
   return (
@@ -8,7 +7,7 @@ const Header = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink:0">
               <Link href={"/"} className="text-xl font-bold text-gray-800">
                 MyWebsite
               </Link>
@@ -40,7 +39,7 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="md:hidden"></div>
+            <div className="md:hidden">Dots</div>
           </div>
 
           <div className="md:hidden">
